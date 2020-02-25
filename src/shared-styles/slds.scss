@@ -1,0 +1,5 @@
+$static-font-path: '../../node_modules/@salesforce-ux/design-system/assets/fonts/webfonts';
+
+:global {
+  @import '../../node_modules/@salesforce-ux/design-system/scss/index.scss';
+}
