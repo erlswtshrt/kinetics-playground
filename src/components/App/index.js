@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Link from 'react-router/lib/Link';
+import Badge from '../Badge';
 import styles from './styles.scss';
 
 function App({ children }) {
@@ -18,6 +19,9 @@ function App({ children }) {
           </Link>
         </li>
       </ul>
+      <div className={styles.content}>
+      <Badge label="Just an SLDS Badge"/>
+      </div>
       <div className={styles.content}>
         {children}
       </div>
