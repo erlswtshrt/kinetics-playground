@@ -1,36 +1,16 @@
-import React, { PropTypes } from 'react';
-import Link from 'react-router/lib/Link';
-import Badge from '../Badge';
-import styles from './styles.scss';
+import React, { PropTypes } from "react";
+import Canvas from '../Canvas'
 
-function App({ children }) {
+function App() {
   return (
     <div>
-      <i className={styles.logo} />
-      <ul className={styles.nav}>
-        <li className={styles.navItem}>
-          <Link className={styles.link} to="/">
-            Home
-          </Link>
-        </li>
-        <li className={styles.navItem}>
-          <Link className={styles.link} to="/tools">
-            Tools
-          </Link>
-        </li>
-      </ul>
-      <div className={styles.content}>
-      <Badge label="Just an SLDS Badge"/>
-      </div>
-      <div className={styles.content}>
-        {children}
-      </div>
+      <Canvas />
     </div>
   );
 }
 
 App.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default App;
