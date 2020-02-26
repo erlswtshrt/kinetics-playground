@@ -23,7 +23,7 @@ class Canvas extends React.Component {
       // tokenized properties
       durationValues: [0.2, 0.3, 0.5, 1],
       easeValues: ["ease-in", "ease-out", "ease-in-out"],
-      properties: ['height', 'opacity'],
+      properties: ['max-height', 'opacity'],
 
       menuValue: initialProps.initialValue,
       button1Value: initialProps.initialValue,
@@ -156,9 +156,17 @@ class Canvas extends React.Component {
 
     return <div style={{ display: 'flex', flexDirection: 'column' }}>
       <h2 style={{ margin: '10px 10px', fontSize: 20 }}>Add Components</h2>
-      <button style={{ margin: 10, padding: 10, fontSize: 14 }} onClick={incComps}>Menu</button>
-      <button style={{ margin: 10, padding: 10, fontSize: 14 }} onClick={incComps}>Button</button>
-      <button style={{ margin: 10, padding: 10, fontSize: 14, background: 'black', color: 'white' }} onClick={reset}>Reset</button>
+      <ul className="slds-p-around_medium">
+        <li>
+          <button className="slds-button slds-button_neutral slds-button_stretch slds-m-bottom_medium" onClick={incComps}>Menu</button>
+        </li>
+        <li>
+          <button className="slds-button slds-button_neutral slds-button_stretch slds-m-bottom_medium" onClick={incComps}>Button</button>
+        </li>
+        <li>
+          <button className="slds-button slds-button_brand slds-button_stretch slds-m-bottom_medium" onClick={reset}>Reset</button>
+        </li>
+      </ul>
     </div>
   }
 
@@ -184,17 +192,14 @@ class Canvas extends React.Component {
 
     const menuStyle = {
       overflow: 'hidden',
-      width: 300,
-      height: this.state.menuProps.property === 'height' ? this.state.menuValue : 300,
+      maxHeight: this.state.menuProps.property === 'max-height' ? this.state.menuValue : 200,
       opacity: this.state.menuProps.property === 'opacity' ? this.state.menuValue : 1,
-      background: "grey",
       transition: compileTransition('menu')
     }
 
     const button1Style = {
       margin: 5,
       padding: 15,
-      background: "yellow",
       transition: compileTransition('button1'),
       opacity: this.state.button1Value
     }
@@ -202,7 +207,6 @@ class Canvas extends React.Component {
     const button2Style = {
       margin: 5,
       padding: 15,
-      background: "orange",
       transition: compileTransition('button2'),
       opacity: this.state.button2Value
     }
@@ -210,7 +214,6 @@ class Canvas extends React.Component {
     const button3Style = {
       margin: 5,
       padding: 15,
-      background: "purple",
       transition: compileTransition('button3'),
       opacity: this.state.button3Value
     }
@@ -220,12 +223,12 @@ class Canvas extends React.Component {
         <div style={{ display: 'flex', borderBottom: '2px black solid' }}>
           {this.renderComponentPanel()}
           <div style={{ width: 600, height: 400, background: "white", overflow: 'hidden', padding: 30 }}>
-            <Menu itemCount="0" />
-            {this.state.componentsAdded > 0 ? <div style={menuStyle}>
-              {this.state.componentsAdded > 1 ? <div style={button1Style}>Button 1</div> : null}
-              {this.state.componentsAdded > 2 ? <div style={button2Style}>Button 2</div> : null}
-              {this.state.componentsAdded > 3 ? <div style={button3Style}>Button 3</div> : null}
-            </div> : null}
+
+            {this.state.componentsAdded > 0 ? <Menu itemCount="0" canvasStyles={menuStyle}>
+              <MenuItem isVisible={this.state.componentsAdded > 1} key="Button 1" style={button1Style} label="Button 1" />
+              <MenuItem isVisible={this.state.componentsAdded > 2} key="Button 2" style={button2Style} label="Button 2" />
+              <MenuItem isVisible={this.state.componentsAdded > 3} key="Button 3" style={button3Style} label="Button 3" />
+            </Menu> : null}
           </div>
           {this.renderPropMenu()}
         </div>

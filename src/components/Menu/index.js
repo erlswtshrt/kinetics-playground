@@ -1,9 +1,9 @@
 import React from "react";
 import styles from './styles.scss';
 
-function Menu({ itemCount }) {
+function Menu({ children, canvasStyles, itemCount }) {
   return (
-    <div class={`slds-align_absolute-center ${styles.container}`}>
+    <div className={`slds-align_absolute-center ${styles.container}`}>
       <div className={styles.wrapper}>
         <div className="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
           <button className="slds-button slds-button_icon slds-button_icon-border-filled" aria-haspopup="true" title="Show More">
@@ -12,9 +12,9 @@ function Menu({ itemCount }) {
             </svg>
             <span className="slds-assistive-text">Show More</span>
           </button>
-          <div className="slds-dropdown slds-dropdown_right">
+          <div className="slds-dropdown slds-dropdown_right" style={canvasStyles}>
             <ul className="slds-dropdown__list" role="menu" aria-label="Show More">
-              {`${itemCount} Items`}
+              {children}
             </ul>
           </div>
         </div>
