@@ -11,6 +11,14 @@
     padding: 10px;
 }
 
+.timelineComponentButtonSelected {
+    border: 1px #979797 solid;
+    background: #F2F2F2;
+    width: 200px;
+    cursor: pointer;
+    padding: 10px;
+}
+
 .timelineRow {
     display: flex;
     margin-bottom: 5px;
@@ -31,11 +39,11 @@
 
 .componentsPanel {
     background: #F9F9F9;
-    width: 200px;
+    width: 225px;
     display: flex;
     flex-direction: column;
     flex: none;
-    border-right: 1px #474747 solid;
+    border-right: 1px #979797 solid;
 }
 
 .label {
@@ -47,7 +55,7 @@
 .propertiesPanel {
     background: #F9F9F9;
     width: 100%;
-    border-left: 1px #474747 solid;
+    border-left: 1px #979797 solid;
 }
 
 .playhead { 

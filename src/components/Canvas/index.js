@@ -135,7 +135,7 @@ class Canvas extends React.Component {
         </div>
       </div >
       {/* <button onClick={this.resetPropsForComponent.bind(this)} style={{ margin: 5, padding: 10, fontSize: 14 }}>Reset All</button> */}
-      <GhostingPanel />
+      <div className='slds-p-around_medium'><GhostingPanel /></div>
     </div>
   }
 
@@ -153,15 +153,9 @@ class Canvas extends React.Component {
     return <div className={styles.componentsPanel}>
       <h2 className='slds-p-top_medium slds-p-left_medium' style={{ fontSize: 10 }}>COMPONENTS</h2>
       <ul className="slds-p-around_medium">
-        <li>
-          <button className="slds-button slds-button_neutral slds-button_stretch slds-m-bottom_medium" onClick={this.addNewComponent.bind(this)}>Menu</button>
-        </li>
-        <li>
-          <button className="slds-button slds-button_neutral slds-button_stretch slds-m-bottom_medium" onClick={this.addNewComponent.bind(this)}>Button</button>
-        </li>
-        <li>
-          {/* <button className="slds-button slds-button_brand slds-button_stretch slds-m-bottom_medium" onClick={reset}>Reset</button> */}
-        </li>
+        <img onClick={this.addNewComponent.bind(this)} src='/menuButton.svg'></img>
+        <img className="slds-p-top_medium" onClick={this.addNewComponent.bind(this)} src='/listItem.svg'></img>
+        <img className="slds-p-top_medium" onClick={this.addNewComponent.bind(this)} src='/modal.svg'></img>
       </ul>
     </div>
   }
@@ -225,7 +219,10 @@ class Canvas extends React.Component {
   }
 
   renderTimelineCompButton(i) {
-    return <button className={styles.timelineComponentButton} onClick={this.setSelectedComponent.bind(this, i)}>{this.getNameForComponent(i)}</button>
+    return <button className={
+      this.state.selectedComponent === i ?
+        styles.timelineComponentButtonSelected : styles.timelineComponentButton}
+      onClick={this.setSelectedComponent.bind(this, i)}>{this.getNameForComponent(i)}</button>
   }
 
   renderTimelineHeader() {
@@ -269,17 +266,19 @@ class Canvas extends React.Component {
 
   render() {
     return (
-      <div>
-        <div style={{ display: 'flex', borderBottom: '1px #474747 solid' }}>
-          {this.renderComponentPanel()}
-          <Stage>
-            {this.context.currentMode === "ghosting" && <StageGhosting />}
-            {this.context.currentMode === "animating" && this.renderMenu()}
-          </Stage>
-          {this.state.componentProps.length > 0 ? this.renderPropMenu() : null}
+      <div style={{ display: 'flex', borderBottom: '1px #979797 solid' }}>
+        {this.renderComponentPanel()}
+        <div>
+          <div style={{ display: 'flex', borderBottom: '1px #979797 solid' }}>
+            <Stage>
+              {this.context.currentMode === "ghosting" && <StageGhosting />}
+              {this.context.currentMode === "animating" && this.renderMenu()}
+            </Stage>
+            {this.state.componentProps.length > 0 ? this.renderPropMenu() : null}
+          </div>
+          {/* <button style={{ margin: 10, padding: 10, fontSize: 20 }} onClick={this.animate.bind(this)}>Animate</button> */}
+          {this.renderTimeline()}
         </div>
-        {/* <button style={{ margin: 10, padding: 10, fontSize: 20 }} onClick={this.animate.bind(this)}>Animate</button> */}
-        {this.renderTimeline()}
       </div >
     );
   }
