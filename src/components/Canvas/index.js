@@ -35,7 +35,7 @@ class Canvas extends React.Component {
   }
 
   getTotalDuration() {
-    return Math.max(...this.state.componentProps.map(p => p.duration)) * 1000
+    return Math.max(...this.state.componentProps.map(p => p.duration * 1000 + p.delay * 1000))
   }
 
   modifyProp(i, property, value) {
@@ -60,12 +60,27 @@ class Canvas extends React.Component {
     }, this.getTotalDuration() + 1000);
   }
 
+  getDurationToken(v) {
+    switch (v) {
+      case 1:
+        return 'speed-very-slow'
+      case 0.5:
+        return 'speed-slow'
+      case 0.3:
+        return 'speed-fast'
+      case 0.2:
+        return 'speed-very-fast'
+      default:
+        return 'speed-very-fast'
+    }
+  }
+
   renderPropMenu() {
     const comp = this.state.selectedComponent
     const props = this.state.componentProps[comp]
 
     return <div style={{ background: 'pink' }}>
-      <h2 style={{ margin: '15px 5px', fontSize: 20 }}>{this.state.selectedComponent} Properties</h2>
+      <h2 style={{ margin: '15px 5px', fontSize: 20 }}>{this.getNameForComponent(this.state.selectedComponent)} Properties</h2>
       <div style={{ display: 'flex' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <label style={{ margin: 5 }}>Property</label>
@@ -88,14 +103,19 @@ class Canvas extends React.Component {
             onChange={v => this.modifyProp(comp, 'finalValue', v.target.value)} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <label style={{ margin: 5 }}>Duration</label>
+          <label style={{ margin: 5 }}>Speed</label>
           <select
             style={{ margin: 5 }}
             value={props.duration}
             onChange={e => this.modifyProp(comp, 'duration', e.target.value)}
           >
-            {this.state.durationValues.map(v => (<option value={v}>{v}</option>))}
+            {this.state.durationValues.map(v => (<option value={v}>{this.getDurationToken(v)}</option>))}
           </select>
+          <label style={{ margin: 5 }}>Delay</label>
+          <input type="text"
+            style={{ margin: 5 }}
+            value={props.delay}
+            onChange={v => this.modifyProp(comp, 'delay', v.target.value)} />
           <label style={{ margin: 5 }}>Ease</label>
           <select
             style={{ margin: 5 }}
@@ -156,6 +176,10 @@ class Canvas extends React.Component {
     )
   }
 
+  getNameForComponent(i) {
+    return i === 0 ? 'Menu' : `Button ${i}`
+  }
+
   renderMenu() {
     const numberOfComps = this.state.componentProps.length
     if (numberOfComps === 0) return null
@@ -167,7 +191,7 @@ class Canvas extends React.Component {
       opacity: menuProps.property === 'opacity' ? menuProps.value : 1,
       transition: this.compileTransition(0)
     }
-    console.log(this.state.componentProps.slice(1));
+
     return (<div>
       {
         numberOfComps > 0 &&
@@ -175,7 +199,7 @@ class Canvas extends React.Component {
           {this.state.componentProps.slice(1).map((_, i) => this.renderButton(i + 1))}
         </Menu>
       }
-      </div>)
+    </div>)
   }
 
   setSelectedComponent(selectedComponent) {
@@ -187,7 +211,7 @@ class Canvas extends React.Component {
   renderTimeline() {
     return <div style={{ color: 'white', background: 'white', padding: 2, display: 'flex', flexDirection: 'column' }}>
       {
-        this.state.componentProps.map((comp, i) => <button key={i} onClick={this.setSelectedComponent.bind(this, i)} style={{ background: 'green', padding: 10, margin: 2, width: comp.duration * 1000 }}>Menu</button>)
+        this.state.componentProps.map((comp, i) => <button key={i} onClick={this.setSelectedComponent.bind(this, i)} style={{ background: this.state.selectedComponent === i ? 'green' : 'blue', padding: 10, margin: 2, width: comp.duration * 500, marginLeft: comp.delay * 500 }}>{this.getNameForComponent(i)}</button>)
       }
     </div>
   }
@@ -195,7 +219,7 @@ class Canvas extends React.Component {
   compileTransition(comp) {
     let props = this.state.componentProps[comp]
     let property = this.state.componentProps[comp].property
-    return props.finalValue === props.value ? `${property} ${props.duration}s ${props.ease}` : null
+    return props.finalValue === props.value ? `${property} ${props.duration}s ${props.ease} ${props.delay}s` : null
   }
 
   render() {
