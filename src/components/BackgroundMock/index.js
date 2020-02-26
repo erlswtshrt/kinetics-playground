@@ -12,10 +12,10 @@ const imageMap = {
   8: "path/to/img",
 }
 
-function BackgroundMock{ curSlide }) {
+function BackgroundMock({ currentMode }) {
   return (
-  <img src={imageMap[curSlide]} />
+  <img src={imageMap[currentMode]} />
   );
 }
 
-export default BackgroundMock
+export default BackgroundMock;

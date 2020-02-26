@@ -1,22 +1,28 @@
-import React, {
-  PropTypes
-} from "react";
+import React, { PropTypes } from "react";
 import Canvas from '../Canvas'
+import BackgroundMock from '../BackgroundMock'
 
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      curSlide: 1;
-    }
+      currentMode: 'animating', // "ghosting", "comparison"
+    };
   }
 
   render() {
-    <div>
-      <Canvas curSlide={curSlide}/>
-      <BackgroundMock curSlide={curSlide}/>
-    </div>
+    const { currentMode } = this.state;
+    return (
+      <div>
+        <Canvas currentMode={currentMode}/>
+        <BackgroundMock currentMode={currentMode}/>
+      </div>
+    )
   }
 }
+
+App.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 export default App;
