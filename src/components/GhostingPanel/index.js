@@ -5,7 +5,7 @@ class GhostingPanel extends React.Component {
   render() {
     const { currentMode, handleModeChange } = this.context;
     return(
-      <div>
+      <div className="slds-p-around_medium">
         <div className="slds-form-element">
           <label className="slds-checkbox_toggle slds-grid">
             <span className="slds-form-element__label slds-m-bottom_none">Ghosting Mode</span>
