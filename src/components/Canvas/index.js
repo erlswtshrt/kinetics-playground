@@ -1,6 +1,7 @@
 import React from "react";
 import Menu from "../Menu";
 import MenuItem from "../MenuItem";
+import TimelineBar from "../TimelineBar";
 
 class Canvas extends React.Component {
   constructor(props) {
@@ -179,10 +180,10 @@ class Canvas extends React.Component {
   renderTimeline() {
 
     return <div style={{ color: 'white', background: 'white', padding: 2, display: 'flex', flexDirection: 'column' }}>
-      {this.state.componentsAdded > 0 ? <button onClick={this.setSelectedComponent.bind(this, 'menu')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.menuProps.duration * 1000 }}>Menu</button> : null}
-      {this.state.componentsAdded > 1 ? <button onClick={this.setSelectedComponent.bind(this, 'button1')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button1Props.duration * 1000 }}>Button1</button> : null}
-      {this.state.componentsAdded > 2 ? <button onClick={this.setSelectedComponent.bind(this, 'button2')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button2Props.duration * 1000 }}>Button2</button> : null}
-      {this.state.componentsAdded > 3 ? <button onClick={this.setSelectedComponent.bind(this, 'button3')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button3Props.duration * 1000 }}>Button3</button> : null}
+      {this.state.componentsAdded > 0 ? <TimelineBar onHandleClick={this.setSelectedComponent.bind(this, 'menu')} duration={this.state.menuProps.duration} label="Menu" /> : null}
+      {this.state.componentsAdded > 1 ? <TimelineBar onHandleClick={this.setSelectedComponent.bind(this, 'button1')} duration={this.state.button1Props.duration} label="Button1" /> : null}
+      {this.state.componentsAdded > 2 ? <TimelineBar onHandleClick={this.setSelectedComponent.bind(this, 'button2')} duration={this.state.button2Props.duration} label="Button2" /> : null}
+      {this.state.componentsAdded > 3 ? <TimelineBar onHandleClick={this.setSelectedComponent.bind(this, 'button3')} duration={this.state.button3Props.duration} label="Button3" /> : null}
     </div>
   }
 
@@ -198,22 +199,16 @@ class Canvas extends React.Component {
     }
 
     const button1Style = {
-      margin: 5,
-      padding: 15,
       transition: compileTransition('button1'),
       opacity: this.state.button1Value
     }
 
     const button2Style = {
-      margin: 5,
-      padding: 15,
       transition: compileTransition('button2'),
       opacity: this.state.button2Value
     }
 
     const button3Style = {
-      margin: 5,
-      padding: 15,
       transition: compileTransition('button3'),
       opacity: this.state.button3Value
     }
@@ -225,9 +220,9 @@ class Canvas extends React.Component {
           <div style={{ width: 600, height: 400, background: "white", overflow: 'hidden', padding: 30 }}>
 
             {this.state.componentsAdded > 0 ? <Menu itemCount="0" canvasStyles={menuStyle}>
-              <MenuItem isVisible={this.state.componentsAdded > 1} key="Button 1" style={button1Style} label="Button 1" />
-              <MenuItem isVisible={this.state.componentsAdded > 2} key="Button 2" style={button2Style} label="Button 2" />
-              <MenuItem isVisible={this.state.componentsAdded > 3} key="Button 3" style={button3Style} label="Button 3" />
+              <MenuItem isVisible={this.state.componentsAdded > 1} key="Button 1" canvasStyles={button1Style} label="Button 1" />
+              <MenuItem isVisible={this.state.componentsAdded > 2} key="Button 2" canvasStyles={button2Style} label="Button 2" />
+              <MenuItem isVisible={this.state.componentsAdded > 3} key="Button 3" canvasStyles={button3Style} label="Button 3" />
             </Menu> : null}
           </div>
           {this.renderPropMenu()}

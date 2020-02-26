@@ -5,12 +5,14 @@ import classnames from 'classnames';
 
 
 
-function Menu({ isVisible, label }) {
+function MenuItem({ canvasStyles, isVisible, label }) {
   return (
     <li className={classnames(
       'slds-dropdown__item',
       { 'slds-hidden' : !isVisible})
-      } role="presentation">
+      }
+      role="presentation"
+      style={canvasStyles}>
       <a href="javascript:void(0);" role="menuitem" tabIndex="0">
         <span className="slds-truncate" title={"Menu Item ${label"}>
           <svg className="slds-icon slds-icon_x-small slds-icon-text-default slds-m-right_x-small" aria-hidden="true">
@@ -21,4 +23,4 @@ function Menu({ isVisible, label }) {
   );
 }
 
-export default Menu;
+export default MenuItem;
