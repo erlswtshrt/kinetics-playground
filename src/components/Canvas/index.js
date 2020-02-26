@@ -107,6 +107,7 @@ class Canvas extends React.Component {
         </div>
       </div >
       {/* <button onClick={this.resetPropsForComponent.bind(this)} style={{ margin: 5, padding: 10, fontSize: 14 }}>Reset All</button> */}
+      <GhostingPanel />
     </div>
   }
 
@@ -141,18 +142,18 @@ class Canvas extends React.Component {
     let props = this.state.componentProps[i]
 
     const style = {
-      overflow: 'hidden',
       height: props.property === 'height' ? props.value : null,
       maxHeight: props.property === 'max-height' ? props.value : null,
       opacity: props.property === 'opacity' ? props.value : 1,
       transition: this.compileTransition(i)
     }
 
-    return <li style={style} className="slds-dropdown__item" role="presentation">
-      <a href="javascript:void(0);" role="menuitem" tabindex="-1">
-        <span className="slds-truncate" title="Menu Item Three">Button</span>
-      </a>
-    </li>
+    // {/* to smoothly animate things, we might need the menu button items already in the menu, but just have them hidden at first */}
+    // {/* taking out isHidden={this.state.componentsAdded <= 1} attribute for now */}
+
+    return (
+      <MenuItem isHidden={false} key={`Button ${i}`} canvasStyles={style} label={`Button ${i}`} />
+    )
   }
 
   renderMenu() {
@@ -160,25 +161,21 @@ class Canvas extends React.Component {
     if (numberOfComps === 0) return null
     const menuProps = this.state.componentProps[0]
     const style = {
-      width: 300,
       overflow: 'hidden',
-      height: menuProps.property === 'height' ? menuProps.value : menuProps === 'max-height' ? null : 300,
+      height: menuProps.property === 'height' ? menuProps.value : menuProps === 'max-height' ? null : 200,
       maxHeight: menuProps.property === 'max-height' ? menuProps.value : null,
       opacity: menuProps.property === 'opacity' ? menuProps.value : 1,
       transition: this.compileTransition(0)
     }
-
-    return <div>{
-      numberOfComps > 0 ? <div className="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
-        <button className="slds-button slds-button_icon slds-button_icon-border-filled" aria-haspopup="true" title="Show More">
-          <span className="slds-assistive-text">Show More</span>
-        </button>
-        <div style={style} className="slds-dropdown slds-dropdown_left">
-          <ul className="slds-dropdown__list" role="menu" aria-label="Show More">
-            {this.state.componentProps.slice(1).map((_, i) => this.renderButton(i + 1))}
-          </ul>
-        </div>
-      </div> : null}</div>
+    console.log(this.state.componentProps.slice(1));
+    return (<div>
+      {
+        numberOfComps > 0 &&
+        <Menu itemCount={numberOfComps} canvasStyles={style}>
+          {this.state.componentProps.slice(1).map((_, i) => this.renderButton(i + 1))}
+        </Menu>
+      }
+      </div>)
   }
 
   setSelectedComponent(selectedComponent) {
@@ -207,8 +204,8 @@ class Canvas extends React.Component {
         <div style={{ display: 'flex', borderBottom: '2px black solid' }}>
           {this.renderComponentPanel()}
           <Stage>
-            {this.renderMenu()}
-
+            {this.context.currentMode === "ghosting" && <StageGhosting />}
+            {this.context.currentMode === "animating" && this.renderMenu()}
           </Stage>
           {this.state.componentProps.length > 0 ? this.renderPropMenu() : null}
         </div>
@@ -218,15 +215,6 @@ class Canvas extends React.Component {
     );
   }
 }
-
-// {this.context.currentMode === "ghosting" && <StageGhosting />}
-//             {this.context.currentMode === "animating" &&
-//               this.state.componentsAdded > 0 && (
-//               <Menu itemCount="0" canvasStyles={menuStyle}>
-//               <MenuItem isHidden={this.state.componentsAdded <= 1} key="Button 1" canvasStyles={button1Style} label="Button 1" />
-//               <MenuItem isHidden={this.state.componentsAdded <= 2} key="Button 2" canvasStyles={button2Style} label="Button 2" />
-//               <MenuItem isHidden={this.state.componentsAdded <= 3} key="Button 3" canvasStyles={button3Style} label="Button 3" />
-//             </Menu>) }
 
 Canvas.contextTypes = {
   currentMode: PropTypes.string,
