@@ -5,11 +5,11 @@ import classnames from 'classnames';
 
 
 
-function MenuItem({ canvasStyles, isVisible, label }) {
+function MenuItem({ canvasStyles, isHidden, label }) {
   return (
     <li className={classnames(
       'slds-dropdown__item',
-      { 'slds-hidden' : !isVisible})
+      { 'slds-hidden' : isHidden})
       }
       role="presentation"
       style={canvasStyles}>

@@ -1,6 +1,9 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import Menu from "../Menu";
 import MenuItem from "../MenuItem";
+import GhostingPanel from "../GhostingPanel";
+import StageGhosting from "../StageGhosting";
+import Stage from "../Stage";
 import TimelineBar from "../TimelineBar";
 
 class Canvas extends React.Component {
@@ -131,6 +134,7 @@ class Canvas extends React.Component {
         </div>
       </div >
       <button onClick={this.resetPropsForComponent.bind(this)} style={{ margin: 5, padding: 10, fontSize: 14 }}>Reset All</button>
+      <GhostingPanel />
     </div>
   }
 
@@ -212,19 +216,20 @@ class Canvas extends React.Component {
       transition: compileTransition('button3'),
       opacity: this.state.button3Value
     }
-
     return (
       <div>
         <div style={{ display: 'flex', borderBottom: '2px black solid' }}>
           {this.renderComponentPanel()}
-          <div style={{ width: 600, height: 400, background: "white", overflow: 'hidden', padding: 30 }}>
-
-            {this.state.componentsAdded > 0 ? <Menu itemCount="0" canvasStyles={menuStyle}>
-              <MenuItem isVisible={this.state.componentsAdded > 1} key="Button 1" canvasStyles={button1Style} label="Button 1" />
-              <MenuItem isVisible={this.state.componentsAdded > 2} key="Button 2" canvasStyles={button2Style} label="Button 2" />
-              <MenuItem isVisible={this.state.componentsAdded > 3} key="Button 3" canvasStyles={button3Style} label="Button 3" />
-            </Menu> : null}
-          </div>
+          <Stage>
+            {this.context.currentMode === "ghosting" && <StageGhosting />}
+            {this.context.currentMode === "animating" &&
+              this.state.componentsAdded > 0 && (
+              <Menu itemCount="0" canvasStyles={menuStyle}>
+              <MenuItem isHidden={this.state.componentsAdded <= 1} key="Button 1" canvasStyles={button1Style} label="Button 1" />
+              <MenuItem isHidden={this.state.componentsAdded <= 2} key="Button 2" canvasStyles={button2Style} label="Button 2" />
+              <MenuItem isHidden={this.state.componentsAdded <= 3} key="Button 3" canvasStyles={button3Style} label="Button 3" />
+            </Menu>) }
+          </Stage>
           {this.renderPropMenu()}
         </div>
         {/* <button style={{ margin: 10, padding: 10, fontSize: 20 }} onClick={this.animate.bind(this)}>Animate</button> */}
@@ -233,5 +238,9 @@ class Canvas extends React.Component {
     );
   }
 }
+
+Canvas.contextTypes = {
+  currentMode: PropTypes.string,
+};
 
 export default Canvas;

@@ -1,0 +1,9 @@
+@import '../../shared-styles/variables';
+
+.stage {
+  width: 600px;
+  height: 400px;
+  background: white;
+  overflow: hidden;
+  padding: $spacing-large;
+}

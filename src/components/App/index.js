@@ -10,10 +10,21 @@ class App extends React.PureComponent {
     };
   }
 
+  handleModeChange(mode) {
+    this.setState({
+      currentMode: mode
+    });
+  }
+
+  getChildContext() {
+    return {
+      currentMode: this.state.currentMode,
+      handleModeChange: this.handleModeChange.bind(this)
+    }
+  }
+
   renderCanvas(mode) {
     switch(mode) {
-      case "ghosting":
-        return <div className="ghosting"></div>
       case "comparison":
         return <div className="comparison"></div>
       default:
@@ -25,7 +36,6 @@ class App extends React.PureComponent {
     const { currentMode } = this.state;
     return (
       <div>
-
         {this.renderCanvas(currentMode)}
         <BackgroundMock currentMode={currentMode} />
       </div>
@@ -35,6 +45,11 @@ class App extends React.PureComponent {
 
 App.propTypes = {
   children: PropTypes.node.isRequired
+};
+
+App.childContextTypes = {
+  currentMode: PropTypes.string,
+  handleModeChange: PropTypes.func
 };
 
 export default App;
