@@ -1,2 +1,8 @@
 @import '../../shared-styles/variables';
 
+.stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+}

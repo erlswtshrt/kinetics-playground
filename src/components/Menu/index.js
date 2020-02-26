@@ -1,10 +1,18 @@
 import React from "react";
+import classnames from 'classnames';
 import styles from './styles.scss';
 
-function Menu({ children, canvasStyles, itemCount }) {
+function Menu({ children, canvasStyles, ghostingLevel, itemCount }) {
   return (
-    <div className={`slds-align_absolute-center ${styles.container}`}>
-      <div className={styles.wrapper}>
+    <div className={classnames(
+          !ghostingLevel && 'slds-align_absolute-center',
+          styles.container,
+          ghostingLevel && styles.ghosted
+        )}>
+      <div className={classnames(
+          styles.wrapper,
+          ghostingLevel && styles.ghosted
+        )}>
         <div className="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
           <button className="slds-button slds-button_icon slds-button_icon-border-filled" aria-haspopup="true" title="Show More">
             <svg className="slds-button__icon" aria-hidden="true">

@@ -1,14 +1,85 @@
 .container {
   height: 100%;
+  position: relative;
+
+  &.ghosted {
+    position: absolute;
+    width: auto;
+  }
+
+  @for $i from 1 through 5 {
+    &.ghosted:nth-of-type(#{$i}) {
+      right: #{(($i - 1) * 100%/5)};
+
+      .wrapper {
+        opacity: 1/$i;
+      }
+    }
+  }
 }
 
 .wrapper {
   height: 200px;
   margin-left: 90px;
+
+  @for $i from 1 through 5 {
+    .ghosted:nth-of-type(#{$i}) & {
+      :global {
+        .slds-dropdown {
+          max-height: 200px/$i;
+        }
+      }
+    }
+  }
+
+  .ghosted:nth-of-type(2) & {
+    :global {
+      .slds-dropdown__item:nth-of-type(3) {
+        opacity: .5;
+      }
+    }
+  }
+
+  .ghosted:nth-of-type(3) & {
+    :global {
+      .slds-dropdown__item:nth-of-type(2) {
+        opacity: .5;
+      }
+
+      .slds-dropdown__item:nth-of-type(3) {
+        opacity: 0;
+      }
+    }
+  }
+
+  .ghosted:nth-of-type(4) & {
+    :global {
+      .slds-dropdown__item:nth-of-type(1) {
+        opacity: .75;
+      }
+
+      .slds-dropdown__item:nth-of-type(2) {
+        opacity: 0;
+      }
+
+      .slds-dropdown__item:nth-of-type(3) {
+        opacity: 0;
+      }
+    }
+  }
+
+  .ghosted:nth-of-type(5) & {
+    :global {
+      .slds-dropdown__item {
+        opacity: 0;
+      }
+    }
+  }
 }
 
+
 :global {
-  .foo {
-    display: block;
+  .slds-dropdown {
+    overflow: hidden;
   }
 }
