@@ -1,6 +1,7 @@
 @import '../../shared-styles/variables';
 
 .stage {
+  position: relative;
   width: 600px;
   height: 400px;
   flex: none;
