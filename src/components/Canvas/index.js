@@ -57,7 +57,7 @@ class Canvas extends React.PureComponent {
         button2Value: this.state.button2Props.initialValue,
         button3Value: this.state.button3Props.initialValue,
       });
-    }, this.state.duration * 1000 + 2000);
+    }, this.state.duration * 1000 + 200);
   }
 
   renderPropMenu() {

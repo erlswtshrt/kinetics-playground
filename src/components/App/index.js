@@ -10,12 +10,24 @@ class App extends React.PureComponent {
     };
   }
 
+  renderCanvas(mode) {
+    switch(mode) {
+      case "ghosting":
+        return <div className="ghosting"></div>
+      case "comparison":
+        return <div className="comparison"></div>
+      default:
+        return <Canvas currentMode={mode}/>
+    }
+  }
+
   render() {
     const { currentMode } = this.state;
     return (
       <div>
-        <Canvas currentMode={currentMode}/>
-        <BackgroundMock currentMode={currentMode}/>
+
+        {this.renderCanvas(currentMode)}
+        <BackgroundMock currentMode={currentMode} />
       </div>
     )
   }
