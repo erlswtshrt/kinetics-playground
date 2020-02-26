@@ -5,6 +5,7 @@
   &.ghosted {
     position: absolute;
     width: auto;
+    height: auto;
   }
 
   @for $i from 1 through 5 {

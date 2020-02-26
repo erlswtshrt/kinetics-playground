@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react";
 import Menu from "../Menu";
 import MenuItem from "../MenuItem";
+import classnames from 'classnames';
 import styles from './styles.scss';
 
 function StageGhosting({ children }) {
@@ -12,7 +13,10 @@ function StageGhosting({ children }) {
     </Menu>;
 
   return (
-    <div className={styles.stage}>
+    <div className={classnames(
+        styles.stage,
+        "slds-align_absolute-center"
+      )}>
       {[5, 4, 3, 2, 1].map(level => renderGhostedMenu(level))}
     </div>
   );

@@ -192,14 +192,14 @@ class Canvas extends React.Component {
       transition: this.compileTransition(0)
     }
 
-    return (<div>
-      {
+    return (
+
         numberOfComps > 0 &&
         <Menu itemCount={numberOfComps} canvasStyles={style}>
           {this.state.componentProps.slice(1).map((_, i) => this.renderButton(i + 1))}
         </Menu>
-      }
-    </div>)
+
+    )
   }
 
   setSelectedComponent(selectedComponent) {
