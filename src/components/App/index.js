@@ -1,6 +1,6 @@
 import React, { PropTypes } from "react";
-import Canvas from '../Canvas'
-import BackgroundMock from '../BackgroundMock'
+import Canvas from '../Canvas';
+import BackgroundMock from '../BackgroundMock';
 
 class App extends React.PureComponent {
   constructor(props) {
