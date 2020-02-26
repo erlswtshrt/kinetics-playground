@@ -1,4 +1,6 @@
 import React from "react";
+import Menu from "../Menu";
+import MenuItem from "../MenuItem";
 
 class Canvas extends React.Component {
   constructor(props) {
@@ -202,6 +204,7 @@ class Canvas extends React.Component {
         <div style={{ display: 'flex' }}>
           {this.renderComponentPanel()}
           <div style={{ width: 600, height: 400, background: "white", overflow: 'hidden', padding: 30 }}>
+            <Menu itemCount="0" />
             {this.state.componentsAdded > 0 ? <div style={menuStyle}>
               {this.state.componentsAdded > 1 ? <div style={button1Style}>Button 1</div> : null}
               {this.state.componentsAdded > 2 ? <div style={button2Style}>Button 2</div> : null}

@@ -1,0 +1,14 @@
+.container {
+  min-height: 5rem;
+}
+
+.wrapper {
+  height: 200px;
+  margin-left: 90px;
+}
+
+:global {
+  .foo {
+    display: block;
+  }
+}
