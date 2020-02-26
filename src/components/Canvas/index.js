@@ -14,6 +14,7 @@ class Canvas extends React.Component {
 
     this.state = {
       componentsAdded: 0,
+      initialProps: JSON.parse(JSON.stringify(initialProps)),
 
       selectedComponent: 'menu',
 
@@ -32,6 +33,10 @@ class Canvas extends React.Component {
       button2Props: JSON.parse(JSON.stringify(initialProps)),
       button3Props: JSON.parse(JSON.stringify(initialProps)),
     };
+  }
+
+  componentDidMount() {
+    this.animate()
   }
 
   getTotalDuration() {
@@ -56,6 +61,7 @@ class Canvas extends React.Component {
         button2Value: this.state.button2Props.initialValue,
         button3Value: this.state.button3Props.initialValue,
       });
+      setTimeout(() => this.animate(), 500)
     }, this.getTotalDuration() + 1000);
   }
 
@@ -65,6 +71,13 @@ class Canvas extends React.Component {
     this.setState({ [`${component}Props`]: Object.assign(newProps, {}) })
     if (property === 'initialValue') this.setState({
       [`${component}Value`]: value
+    })
+  }
+
+  resetPropsForComponent() {
+    this.setState({
+      [`${this.state.selectedComponent}Props`]: JSON.parse(JSON.stringify(this.state.initialProps)),
+      [`${this.state.selectedComponent}Value`]: this.state.initialProps.initialValue,
     })
   }
 
@@ -114,6 +127,7 @@ class Canvas extends React.Component {
           </select>
         </div>
       </div >
+      <button onClick={this.resetPropsForComponent.bind(this)} style={{ margin: 5, padding: 10, fontSize: 14 }}>Reset All</button>
     </div>
   }
 
@@ -146,16 +160,19 @@ class Canvas extends React.Component {
     </div>
   }
 
-  renderTimeline() {
-    const setSelectedComponent = selectedComponent => this.setState({
+  setSelectedComponent(selectedComponent) {
+    this.setState({
       selectedComponent
     })
+  }
+
+  renderTimeline() {
 
     return <div style={{ color: 'white', background: 'white', padding: 2, display: 'flex', flexDirection: 'column' }}>
-      {this.state.componentsAdded > 0 ? <button onClick={setSelectedComponent.bind('menu')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.menuProps.duration * 1000 }}>Menu</button> : null}
-      {this.state.componentsAdded > 1 ? <button onClick={setSelectedComponent.bind('button1')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button1Props.duration * 1000 }}>Button1</button> : null}
-      {this.state.componentsAdded > 2 ? <button onClick={setSelectedComponent.bind('button2')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button2Props.duration * 1000 }}>Button2</button> : null}
-      {this.state.componentsAdded > 3 ? <button onClick={setSelectedComponent.bind('button3')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button3Props.duration * 1000 }}>Button3</button> : null}
+      {this.state.componentsAdded > 0 ? <button onClick={this.setSelectedComponent.bind(this, 'menu')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.menuProps.duration * 1000 }}>Menu</button> : null}
+      {this.state.componentsAdded > 1 ? <button onClick={this.setSelectedComponent.bind(this, 'button1')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button1Props.duration * 1000 }}>Button1</button> : null}
+      {this.state.componentsAdded > 2 ? <button onClick={this.setSelectedComponent.bind(this, 'button2')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button2Props.duration * 1000 }}>Button2</button> : null}
+      {this.state.componentsAdded > 3 ? <button onClick={this.setSelectedComponent.bind(this, 'button3')} style={{ background: 'green', padding: 10, margin: 2, width: this.state.button3Props.duration * 1000 }}>Button3</button> : null}
     </div>
   }
 
@@ -168,7 +185,6 @@ class Canvas extends React.Component {
       width: 300,
       height: this.state.menuProps.property === 'height' ? this.state.menuValue : 300,
       opacity: this.state.menuProps.property === 'opacity' ? this.state.menuValue : 1,
-      padding: 10,
       background: "grey",
       transition: compileTransition('menu')
     }
@@ -199,7 +215,7 @@ class Canvas extends React.Component {
 
     return (
       <div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', borderBottom: '2px black solid' }}>
           {this.renderComponentPanel()}
           <div style={{ width: 600, height: 400, background: "white", overflow: 'hidden', padding: 30 }}>
             {this.state.componentsAdded > 0 ? <div style={menuStyle}>
@@ -210,7 +226,7 @@ class Canvas extends React.Component {
           </div>
           {this.renderPropMenu()}
         </div>
-        <button style={{ margin: 10, padding: 10, fontSize: 20 }} onClick={this.animate.bind(this)}>Animate</button>
+        {/* <button style={{ margin: 10, padding: 10, fontSize: 20 }} onClick={this.animate.bind(this)}>Animate</button> */}
         {this.renderTimeline()}
       </div>
     );
